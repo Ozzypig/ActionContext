@@ -1,8 +1,8 @@
 # Rojo
-ActionContext.rbxl
-ActionContext.rbxlx
-ActionContext.rbxm
-ActionContext.rbxmx
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
 
 # StyLua
 roblox.yml
