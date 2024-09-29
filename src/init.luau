@@ -260,7 +260,13 @@ function ActionContext:Enter()
 	end
 	self._bound = true
 end
-ActionContext.Bind = ActionContext.Enter -- alias
+
+--[=[
+	Alias for [ActionContext:Enter].
+	@method Bind
+	@within ActionContext
+]=]
+ActionContext.Bind = ActionContext.Enter
 
 --[=[
 	Call this when the player leaves the gameplay situation in which 
@@ -277,7 +283,13 @@ function ActionContext:Leave()
 	end
 	self._bound = false
 end
-ActionContext.Unbind = ActionContext.Leave -- alias
+
+--[=[
+	Alias for [ActionContext:Leave].
+	@method Unbind
+	@within ActionContext
+]=]
+ActionContext.Unbind = ActionContext.Leave
 
 --[=[
 	Returns an action handler suitable for use with another Context object.
