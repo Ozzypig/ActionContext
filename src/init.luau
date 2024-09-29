@@ -1,5 +1,6 @@
 --!strict
---[[
+--[=[
+	@class ActionContext
 	An ActionContext object, also known as just a context, represents a situation in which
 	the player may take actions by performing input. An action is represented by a table
 	with `ActionName`, `Inputs` and a `Handle` callback:
@@ -60,7 +61,7 @@
 	It may be helpful to name `Context` objeccts after the game state in which they are relevant.
 	In the above example, `outerContext` might be renamed to `textEditorContext`, and the `innerContext` might be
 	renamed to `ctrlContext`.
-]]
+]=]
 
 local ContextActionService: ContextActionService = game:GetService("ContextActionService")
 
@@ -143,7 +144,7 @@ ActionContext._VERSION = "1.0.0"
 ActionContext.reverseArrayInPlace = reverseArrayInPlace
 ActionContext.RequireChildren = RequireChildren
 
---[[
+--[=[
 	Create a new Context with actions from ModuleScripts within
 	a given container instance. These ModuleScripts are expected
 	to return tables which are ActionHandlers.
@@ -156,7 +157,7 @@ ActionContext.RequireChildren = RequireChildren
 	higher priority modules' actions to be bound after the
 	lower priority modules' actions. This means that their action
 	handlers take priority if they share inputs.
-]]
+]=]
 function ActionContext.fromChildren(instance: Instance): ActionContext
 	local actionHandlers: { ActionHandler } = RequireChildren.AsArray(instance)
 	reverseArrayInPlace(actionHandlers)
@@ -164,7 +165,7 @@ function ActionContext.fromChildren(instance: Instance): ActionContext
 	return actionContext
 end
 
---[[
+--[=[
 	Create an action handler of a given name which runs a callback
 	on a particular input and desired user input state. The handler sinks
 	all other inputs. Useful for one-shot key commands.
@@ -172,7 +173,7 @@ end
 		ActionContext.new({
 			Context.action("Honk", Enum.UserInputState.Begin, { Enum.KeyCode.H }, function () sound:Play() end)
 		}):Enter()
-]]
+]=]
 function ActionContext.action(
 	actionName: string,
 	desiredUserInputState: Enum.UserInputState,
@@ -191,7 +192,7 @@ function ActionContext.action(
 	}
 end
 
---[[
+--[=[
 	A shortcut for ActionContext.action with Enum.UserInputState.Begin
 	
 		ActionContext.new({
@@ -204,7 +205,7 @@ end
 	the latter action will take priority and sink inputs before they
 	reach the formerly bound action. If you need to handle multiple
 	user input states, use ActionContext.action once i.e. bind only one action.
-]]
+]=]
 function ActionContext.actionBegin(
 	actionName: string,
 	inputs: { UserInput },
@@ -213,9 +214,9 @@ function ActionContext.actionBegin(
 	return ActionContext.action(actionName, Enum.UserInputState.Begin, inputs, callback)
 end
 
---[[
+--[=[
 	Same as ActionContext.actionBegin, except for Enum.UserInputState.End
-]]
+]=]
 function ActionContext.actionEnd(
 	actionName: string,
 	inputs: { UserInput },
@@ -224,9 +225,9 @@ function ActionContext.actionEnd(
 	return ActionContext.action(actionName, Enum.UserInputState.Begin, inputs, callback)
 end
 
---[[
+--[=[
 	Creates a new ActionContext object with the given action handlers.
-]]
+]=]
 function ActionContext.new(actionHandlers: { ActionHandler }): ActionContext
 	local self = {}
 	self._bound = false
@@ -242,12 +243,12 @@ function ActionContext.new(actionHandlers: { ActionHandler }): ActionContext
 	return setmetatable(self, ActionContext)
 end
 
---[[
+--[=[
 	Call this when the player enters the gameplay situation in which 
 	this context's actions should become available.
 	
 	Emits a warning when called repeatedly without Leaving first.
-]]
+]=]
 function ActionContext:Enter()
 	if self._bound then
 		warn("Already bound")
@@ -261,12 +262,12 @@ function ActionContext:Enter()
 end
 ActionContext.Bind = ActionContext.Enter -- alias
 
---[[
+--[=[
 	Call this when the player leaves the gameplay situation in which 
 	this context's actions were available.
 	
 	Emits a warning when called without having called Enter first.
-]]
+]=]
 function ActionContext:Leave()
 	if not self._bound then
 		warn(`Context: Not bound`)
@@ -278,7 +279,7 @@ function ActionContext:Leave()
 end
 ActionContext.Unbind = ActionContext.Leave -- alias
 
---[[
+--[=[
 	Returns an action handler suitable for use with another Context object.
 	
 	When the action's input is began, this context will be Entered.
@@ -312,7 +313,7 @@ ActionContext.Unbind = ActionContext.Leave -- alias
 				}):CreateBindAction("ShiftChord", { Enum.KeyCode.LeftShift, Enum.KeyCode.RightShift }),
 			}):CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
 		}):Enter()
-]]
+]=]
 function ActionContext:CreateBindAction(actionName: string, inputs: { UserInput }): ActionHandler
 	local bound = false
 	local actionHandler: ActionHandler = {
@@ -336,7 +337,7 @@ function ActionContext:CreateBindAction(actionName: string, inputs: { UserInput 
 	return actionHandler
 end
 
---[[
+--[=[
 	Process input related to an action to the appropriate handler within this context. This
 	is automatically called by ContextActionService after this context has been entered and
 	the actions bound.
@@ -354,7 +355,7 @@ end
 	Note that this method ignores whether the context is currently entered or left, so for this
 	example you would need ensure the on-screen button is shown/hidden when the player enters/leaves
 	the car.
-]]
+]=]
 function ActionContext:HandleAction(
 	actionName: string,
 	userInputState: Enum.UserInputState,
