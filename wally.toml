@@ -1,0 +1,9 @@
+[package]
+name = "ozzypig/action-context"
+description = "Object-oriented ContextActionService"
+version = "1.0.0"
+license = "MIT"
+authors = ["Ozzypig"]
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+exclude = ["node_modules"]
