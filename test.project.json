@@ -1,5 +1,5 @@
 {
-	"name": "ActionContext (test)",
+	"name": "action-context (test)",
 	"tree": {
 		"$className": "DataModel",
 		"ReplicatedStorage": {
