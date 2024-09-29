@@ -25,7 +25,7 @@
 	```lua
 	local carContext = ActionContext.new({ honkAction })
 	```
-	
+
 	Finally, the context is entered then left at the appropriate time:
 
 	```lua
@@ -92,11 +92,40 @@ local function reverseArrayInPlace<T>(array: { T })
 	end
 end
 
-type UserInput = Enum.UserInputType | Enum.KeyCode
-type HandleCallback = (userInputState: Enum.UserInputState, inputObject: InputObject) -> Enum.ContextActionResult?
+--[=[
+	@type UserInput Enum.UserInputType | Enum.KeyCode
+	@within ActionContext
+	An enum suitable for use with [ContextActionService:BindAction].
+]=]
+export type UserInput = Enum.UserInputType | Enum.KeyCode
+
+--[=[
+	@type HandleCallback (userInputState: Enum.UserInputState, inputObject: InputObject) -> Enum.ContextActionResult?
+	@within ActionContext
+	An action handler callback which processes arguments that come from [ContextActionService:BindAction].
+]=]
+export type HandleCallback = (
+	userInputState: Enum.UserInputState,
+	inputObject: InputObject
+) -> Enum.ContextActionResult?
 --| ((userInputState: Enum.UserInputState, inputObject: InputObject) -> ())
-type HandleInputObjectCallback = (inputObject: InputObject) -> Enum.ContextActionResult?
+
+--[=[
+	@type HandleInputObjectCallback (inputObject: InputObject) -> Enum.ContextActionResult?
+	@within ActionContext
+	A simpler action handler callback which processes arguments that come from [ContextActionService:BindAction],
+	with the assumption that a particular UserInputState is desired.
+	Used with [ActionContext.action], [ActionContext.actionBegin], and [ActionContext.actionEnd].
+]=]
+export type HandleInputObjectCallback = (inputObject: InputObject) -> Enum.ContextActionResult?
 --| ((inputObject: InputObject)->())
+
+--[=[
+	@type ActionHandler { ActionName: string, Inputs: { UserInput }, Handle: HandleCallback, }
+	@within ActionContext
+	A table describing a single action to be bound/unbound with [ContextActionService:BindAction]/
+	[ContextActionService:UnbindAction].
+]=]
 export type ActionHandler = {
 	ActionName: string,
 	Inputs: { UserInput },
