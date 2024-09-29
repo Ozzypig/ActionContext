@@ -116,7 +116,7 @@ do
 	getRadius = attributeGetter("Radius", "number", nil)
 	getRadius = attributeGetter("Radius", "number", 10)
 	getRadius = attributeGetter("Radius", nil, 10 :: number?)
-	local radius: number = getRadius(script)
+	local _radius: number = getRadius(script)
 end
 
 return attributeGetter

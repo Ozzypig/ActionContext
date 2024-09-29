@@ -318,7 +318,7 @@ function ActionContext:CreateBindAction(actionName: string, inputs: { UserInput 
 	local actionHandler: ActionHandler = {
 		ActionName = actionName,
 		Inputs = inputs,
-		Handle = function(userInputState: Enum.UserInputState, inputObject: InputObject): Enum.ContextActionResult
+		Handle = function(userInputState: Enum.UserInputState, _inputObject: InputObject): Enum.ContextActionResult
 			if not bound and userInputState == Enum.UserInputState.Begin then
 				bound = true
 				self:Enter()
