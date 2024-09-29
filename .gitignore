@@ -6,3 +6,7 @@ ActionContext.rbxmx
 
 # StyLua
 roblox.yml
+
+# Moonwave
+build
+node_modules

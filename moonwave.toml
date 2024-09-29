@@ -1,0 +1,23 @@
+title = "ActionContext"
+gitRepoUrl = "https://github.com/Ozzypig/ActionContext"
+
+gitSourceBranch = "main"
+
+[docusaurus]
+onBrokenLinks = "throw"
+onBrokenMarkdownLinks = "warn"
+#favicon = ""
+
+organizationName = "Ozzypig"
+projectName = "ActionContext"
+url = "https://docs.ozzypig.com"
+baseUrl = "/ActionContext/"
+tagline = "Object-oriented ContextActionService"
+trailingSlash = true
+
+#[navbar]
+#ideableSidebar = true
+
+[footer]
+style = "dark"
+copyright = "© Ozzypig"
