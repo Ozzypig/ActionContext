@@ -187,7 +187,7 @@ ActionContext.reverseArrayInPlace = reverseArrayInPlace
 ActionContext.RequireChildren = RequireChildren
 
 --[=[
-	Create a new Context with actions from ModuleScripts within
+	Create a new `ActionContext` with actions from ModuleScripts within
 	a given container instance. These ModuleScripts are expected
 	to return tables which are ActionHandlers.
 
@@ -237,7 +237,7 @@ function ActionContext.action(
 end
 
 --[=[
-	A shortcut for ActionContext.action with Enum.UserInputState.Begin
+	A shortcut for [ActionContext.action] with Enum.UserInputState.Begin
 
 	```lua
 	ActionContext.new({
@@ -261,7 +261,7 @@ function ActionContext.actionBegin(
 end
 
 --[=[
-	Same as ActionContext.actionBegin, except for Enum.UserInputState.End
+	Same as [ActionContext.actionBegin], except for Enum.UserInputState.End
 ]=]
 function ActionContext.actionEnd(
 	actionName: string,
@@ -272,7 +272,7 @@ function ActionContext.actionEnd(
 end
 
 --[=[
-	Creates a new ActionContext object with the given action handlers.
+	Creates a new [ActionContext] object with the given action handlers.
 ]=]
 function ActionContext.new(actionHandlers: { ActionHandler }): ActionContext
 	local self = {}
@@ -293,7 +293,7 @@ end
 	Call this when the player enters the gameplay situation in which 
 	this context's actions should become available.
 
-	Emits a warning when called repeatedly without Leaving first.
+	Emits a warning when called repeatedly without Leaving ([ActionContext:Leave]) first.
 ]=]
 function ActionContext:Enter()
 	if self._bound then
@@ -315,10 +315,10 @@ end
 ActionContext.Bind = ActionContext.Enter
 
 --[=[
-	Call this when the player leaves the gameplay situation in which 
+	Call this when the player leaves the gameplay situation in which
 	this context's actions were available.
 
-	Emits a warning when called without having called Enter first.
+	Emits a warning when called without having called Enter ([ActionContext:Enter]) first.
 ]=]
 function ActionContext:Leave()
 	if not self._bound then
@@ -338,7 +338,7 @@ end
 ActionContext.Unbind = ActionContext.Leave
 
 --[=[
-	Returns an action handler suitable for use with another Context object.
+	Returns an action handler suitable for use with another [ActionContext].
 
 	When the action's input is began, this context will be Entered.
 	When the action's input is ended or canceled, this context will be Left.
