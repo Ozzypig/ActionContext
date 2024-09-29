@@ -71,7 +71,7 @@
 	outerContext:Enter()
 	```
 
-	It may be helpful to name `Context` objeccts after the game state in which they are relevant.
+	It may be helpful to name `Context` objects after the game state in which they are relevant.
 	In the above example, `outerContext` might be renamed to `textEditorContext`, and the `innerContext` might be
 	renamed to `ctrlContext`.
 ]=]
