@@ -1,0 +1,12 @@
+{
+	"name": "ActionContext (test)",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$ignoreUnknownInstances": true,
+			"ActionContext": {
+				"$path": "default.project.json"
+			}
+		}
+	}
+}
