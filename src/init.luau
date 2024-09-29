@@ -4,60 +4,73 @@
 	An ActionContext object, also known as just a context, represents a situation in which
 	the player may take actions by performing input. An action is represented by a table
 	with `ActionName`, `Inputs` and a `Handle` callback:
-	
-		local honkAction = {
-			ActionName = "Honk",
-			Inputs = { Enum.KeyCode.H },
-			Handle = function (userInputState: Enum.UserInputState, inputObject: InputObject)
-				if userInputState == Enum.UserInputState.Begin then
-					sound:Play() -- BEEP!
-				end
-				-- (Returning nothing here or nil implies
-				-- returning Enum.ContextActionResult.Sink, see
-				-- docs for ContextActionService:BindAction)
-			end,
-		}
-	
+
+	```lua
+	local honkAction = {
+		ActionName = "Honk",
+		Inputs = { Enum.KeyCode.H },
+		Handle = function (userInputState: Enum.UserInputState, inputObject: InputObject)
+			if userInputState == Enum.UserInputState.Begin then
+				sound:Play() -- BEEP!
+			end
+			-- (Returning nothing here or nil implies
+			-- returning Enum.ContextActionResult.Sink, see
+			-- docs for ContextActionService:BindAction)
+		end,
+	}
+	```
+
 	Actions like as these are passed in a table to Context.new:
+
+	```lua
+	local carContext = ActionContext.new({ honkAction })
+	```
 	
-		local carContext = ActionContext.new({ honkAction })
-		
 	Finally, the context is entered then left at the appropriate time:
-	
-		-- Player gets in the car:
-		carContext:Enter()
-		
-		-- Player exits the car:
-		carContext:Leave()
-	
+
+	```lua
+	-- Player gets in the car:
+	carContext:Enter()
+
+	-- Player exits the car:
+	carContext:Leave()
+	```
+
 	Now the player can honk the horn when they are sitting in the car!
-	
+
 	The Context library also provides some convenience functions for the creation of simple actions,
 	like those of one-off key commands:
-	
-		ActionContext.new({
-			Context.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
-		}):Enter()
-	
+
+	```lua
+	ActionContext.new({
+		Context.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
+	}):Enter()
+	```
+
 	Got a lot of actions? Organize them into ModuleScripts inside a container:
-	
-		Context.fromChildren(container):Enter()
+
+
+	```lua
+	Context.fromChildren(container):Enter()
+	```
 
 	Using Context:CreateBindAction, it becomes easy to to create input chords. Using this method,
 	doing one action causes another context to be entered. For example, holding Ctrl enters a
 	context in which C and V can be pressed, which is ultimately a Ctrl+C and Ctrl+V sequence:
-	
-		local innerContext = ActionContext.new({
-			-- in this context, we're holding Ctrl
-			Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
-			Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
-		})
-		local outerContext = ActionContext.new({
-			-- While holding either Control key, the innerContext is entered/left.
-			innerContext:CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
-		})
-		outerContext:Enter()
-	
+
+	```lua
+	local innerContext = ActionContext.new({
+		-- in this context, we're holding Ctrl
+		Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
+		Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
+	})
+	local outerContext = ActionContext.new({
+		-- While holding either Control key, the innerContext is entered/left.
+		innerContext:CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
+	})
+	outerContext:Enter()
+	```
+
 	It may be helpful to name `Context` objeccts after the game state in which they are relevant.
 	In the above example, `outerContext` might be renamed to `textEditorContext`, and the `innerContext` might be
 	renamed to `ctrlContext`.
@@ -148,11 +161,11 @@ ActionContext.RequireChildren = RequireChildren
 	Create a new Context with actions from ModuleScripts within
 	a given container instance. These ModuleScripts are expected
 	to return tables which are ActionHandlers.
-	
+
 	Modules are required in ascending order of the RequirePriority
 	attribute, if defined, then followed by unset priority modules
 	in an undefined order.
-	
+
 	After requiring, the array of actions is reversed, causing the
 	higher priority modules' actions to be bound after the
 	lower priority modules' actions. This means that their action
@@ -169,10 +182,12 @@ end
 	Create an action handler of a given name which runs a callback
 	on a particular input and desired user input state. The handler sinks
 	all other inputs. Useful for one-shot key commands.
-	
-		ActionContext.new({
-			Context.action("Honk", Enum.UserInputState.Begin, { Enum.KeyCode.H }, function () sound:Play() end)
-		}):Enter()
+
+	```lua
+	ActionContext.new({
+		Context.action("Honk", Enum.UserInputState.Begin, { Enum.KeyCode.H }, function () sound:Play() end)
+	}):Enter()
+	```
 ]=]
 function ActionContext.action(
 	actionName: string,
@@ -194,11 +209,13 @@ end
 
 --[=[
 	A shortcut for ActionContext.action with Enum.UserInputState.Begin
-	
-		ActionContext.new({
-			ActionContext.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
-		}):Enter()
-	
+
+	```lua
+	ActionContext.new({
+		ActionContext.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
+	}):Enter()
+	```
+
 	Warning: Don't combine with ActionContext.actionEnd, as the underlying
 	ActionContext.action sinks all other input states. Even if both actions
 	used different names for the same input (also not recommended),
@@ -246,7 +263,7 @@ end
 --[=[
 	Call this when the player enters the gameplay situation in which 
 	this context's actions should become available.
-	
+
 	Emits a warning when called repeatedly without Leaving first.
 ]=]
 function ActionContext:Enter()
@@ -271,7 +288,7 @@ ActionContext.Bind = ActionContext.Enter
 --[=[
 	Call this when the player leaves the gameplay situation in which 
 	this context's actions were available.
-	
+
 	Emits a warning when called without having called Enter first.
 ]=]
 function ActionContext:Leave()
@@ -293,38 +310,42 @@ ActionContext.Unbind = ActionContext.Leave
 
 --[=[
 	Returns an action handler suitable for use with another Context object.
-	
+
 	When the action's input is began, this context will be Entered.
 	When the action's input is ended or canceled, this context will be Left.
-	
+
 	Useful for creating input chords, like Ctrl+C and Ctrl+V:
-	
-		local innerContext = ActionContext.new({
-			-- in this context, we're holding Ctrl
-			Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
-			Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
-		})
-		local outerContext = ActionContext.new({
-			-- While holding either Control key, the innerContext is entered/left.
-			innerContext:CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
-		})
-		outerContext:Enter()
-	
+
+	```lua
+	local innerContext = ActionContext.new({
+		-- in this context, we're holding Ctrl
+		Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
+		Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
+	})
+	local outerContext = ActionContext.new({
+		-- While holding either Control key, the innerContext is entered/left.
+		innerContext:CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
+	})
+	outerContext:Enter()
+	```
+
 	Or even triads, like Ctrl+Shift+T:
 
+	```lua
+	ActionContext.new({
 		ActionContext.new({
+			-- in this context, we're holding Ctrl
 			ActionContext.new({
-				-- in this context, we're holding Ctrl
-				ActionContext.new({
-					-- in this context, we're holding Ctrl then Shift
-					Context.actionBegin("Tell the time", { Enum.KeyCode.T }, function (inputObject)
-						local dt = DateTime.now()
-						print(dt:FormatUniversalTime("llll", "en-us"))
-						return Enum.ContextActionResult.Sink
-					end)
-				}):CreateBindAction("ShiftChord", { Enum.KeyCode.LeftShift, Enum.KeyCode.RightShift }),
-			}):CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
-		}):Enter()
+				-- in this context, we're holding Ctrl then Shift
+				Context.actionBegin("Tell the time", { Enum.KeyCode.T }, function (inputObject)
+					local dt = DateTime.now()
+					print(dt:FormatUniversalTime("llll", "en-us"))
+					return Enum.ContextActionResult.Sink
+				end)
+			}):CreateBindAction("ShiftChord", { Enum.KeyCode.LeftShift, Enum.KeyCode.RightShift }),
+		}):CreateBindAction("ControlChord", { Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl }),
+	}):Enter()
+	```
 ]=]
 function ActionContext:CreateBindAction(actionName: string, inputs: { UserInput }): ActionHandler
 	local bound = false
@@ -353,17 +374,19 @@ end
 	Process input related to an action to the appropriate handler within this context. This
 	is automatically called by ContextActionService after this context has been entered and
 	the actions bound.
-	
+
 	Call this manually if you want to handle input as if it were performed by the player
 	through some other means. For example, if a touchscreen player touches an on-screen button
 	to honk a car horn, you might want the button press input handled by a context that which
 	is entered when the player sits in the car.
-	
-		textButton.InputBegan:Connect(function (inputObject)
-			context:HandleAction("Honk", Enum.UserInputState.Begin, inputObject)
-		end)
-		-- (also InputChanged, InputEnded as relevant)
-	
+
+	```lua
+	textButton.InputBegan:Connect(function (inputObject)
+		context:HandleAction("Honk", Enum.UserInputState.Begin, inputObject)
+	end)
+	-- (also InputChanged, InputEnded as relevant)
+	```
+
 	Note that this method ignores whether the context is currently entered or left, so for this
 	example you would need ensure the on-screen button is shown/hidden when the player enters/leaves
 	the car.
