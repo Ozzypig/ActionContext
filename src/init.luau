@@ -43,7 +43,7 @@
 
 	```lua
 	ActionContext.new({
-		Context.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
+		ActionContext.actionBegin("Honk", { Enum.KeyCode.H }, function () sound:Play() end)
 	}):Enter()
 	```
 
@@ -51,7 +51,7 @@
 
 
 	```lua
-	Context.fromChildren(container):Enter()
+	ActionContext.fromChildren(container):Enter()
 	```
 
 	Using Context:CreateBindAction, it becomes easy to to create input chords. Using this method,
@@ -61,8 +61,8 @@
 	```lua
 	local innerContext = ActionContext.new({
 		-- in this context, we're holding Ctrl
-		Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
-		Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
+		ActionContext.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
+		ActionContext.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
 	})
 	local outerContext = ActionContext.new({
 		-- While holding either Control key, the innerContext is entered/left.
@@ -214,7 +214,7 @@ end
 
 	```lua
 	ActionContext.new({
-		Context.action("Honk", Enum.UserInputState.Begin, { Enum.KeyCode.H }, function () sound:Play() end)
+		ActionContext.action("Honk", Enum.UserInputState.Begin, { Enum.KeyCode.H }, function () sound:Play() end)
 	}):Enter()
 	```
 ]=]
@@ -348,8 +348,8 @@ ActionContext.Unbind = ActionContext.Leave
 	```lua
 	local innerContext = ActionContext.new({
 		-- in this context, we're holding Ctrl
-		Context.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
-		Context.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
+		ActionContext.actionBegin("Copy", { Enum.KeyCode.C }, function () print("Copied") end),
+		ActionContext.actionBegin("Paste", { Enum.KeyCode.V }, function () print("Pasted") end),
 	})
 	local outerContext = ActionContext.new({
 		-- While holding either Control key, the innerContext is entered/left.
@@ -366,7 +366,7 @@ ActionContext.Unbind = ActionContext.Leave
 			-- in this context, we're holding Ctrl
 			ActionContext.new({
 				-- in this context, we're holding Ctrl then Shift
-				Context.actionBegin("Tell the time", { Enum.KeyCode.T }, function (inputObject)
+				ActionContext.actionBegin("Tell the time", { Enum.KeyCode.T }, function (inputObject)
 					local dt = DateTime.now()
 					print(dt:FormatUniversalTime("llll", "en-us"))
 					return Enum.ContextActionResult.Sink
