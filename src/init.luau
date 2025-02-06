@@ -134,6 +134,7 @@ export type ActionHandler = {
 
 export type ActionContextImpl = {
 	__index: ActionContextImpl,
+	_VERSION: string,
 
 	-- Exposed dependencies
 	RequireChildren: typeof(RequireChildren),
