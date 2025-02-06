@@ -1,6 +1,6 @@
 # ActionContext
 
-* Version: **1.0.0**
+* Version: **1.0.1**
 * [Documentation available at docs.ozzypig.com/ActionContext](https://docs.ozzypig.com/ActionContext/main/)
 * [Download pre-built model files via GitHub Releases](https://github.com/Ozzypig/ActionContext/releases)
 * [Get Model on Roblox Creator Store](https://create.roblox.com/store/asset/86001116693956/ActionContext-v100)

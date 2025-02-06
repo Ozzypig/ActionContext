@@ -1,7 +1,7 @@
 [package]
 name = "ozzypig/action-context"
 description = "Object-oriented ContextActionService"
-version = "1.0.0"
+version = "1.0.1"
 license = "MIT"
 authors = ["Ozzypig"]
 realm = "shared"

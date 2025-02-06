@@ -182,7 +182,7 @@ export type ActionContext = typeof(setmetatable(
 
 local ActionContext: ActionContextImpl = {} :: ActionContextImpl
 ActionContext.__index = ActionContext
-ActionContext._VERSION = "1.0.0"
+ActionContext._VERSION = "1.0.1"
 ActionContext.reverseArrayInPlace = reverseArrayInPlace
 ActionContext.RequireChildren = RequireChildren
 
